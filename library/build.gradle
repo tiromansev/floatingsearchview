@@ -29,5 +29,3 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.bartoszlipinski:viewpropertyobjectanimator:1.5.0'
 }
-
-//enable when uploading lib// apply from: 'maven-push.gradle'
