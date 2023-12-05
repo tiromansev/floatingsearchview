@@ -98,7 +98,7 @@ public class MenuView extends LinearLayout {
         init();
     }
 
-    public List<MenuItemImpl> getCurrentMenuItems(){
+    public List<MenuItemImpl> getCurrentMenuItems() {
         return mMenuItems;
     }
 
@@ -286,7 +286,7 @@ public class MenuView extends LinearLayout {
         List<MenuItemImpl> showAlwaysActionItems = filter(mMenuItems, new MenuItemImplPredicate() {
             @Override
             public boolean apply(MenuItemImpl menuItem) {
-                return  menuItem.getIcon() != null && menuItem.requiresActionButton();
+                return menuItem.getIcon() != null && menuItem.requiresActionButton();
             }
         });
 
@@ -332,10 +332,10 @@ public class MenuView extends LinearLayout {
                         @Override
                         public void onAnimationEnd(Animator animation) {
 
-                            currentChild.setTranslationX(isRTL()?-destTransX:destTransX);
+                            currentChild.setTranslationX(isRTL() ? -destTransX : destTransX);
                         }
                     })
-                    .translationXBy(isRTL()? -destTransX: destTransX).get());
+                    .translationXBy(isRTL() ? -destTransX : destTransX).get());
         }
 
         //add anims for moving to right and/or zooming out previously shown items
@@ -351,9 +351,9 @@ public class MenuView extends LinearLayout {
                             @Override
                             public void onAnimationEnd(Animator animation) {
 
-                                currentView.setTranslationX(isRTL()?-ACTION_DIMENSION_PX:ACTION_DIMENSION_PX);
+                                currentView.setTranslationX(isRTL() ? -ACTION_DIMENSION_PX : ACTION_DIMENSION_PX);
                             }
-                        }).translationXBy(isRTL()?-ACTION_DIMENSION_PX:ACTION_DIMENSION_PX).get());
+                        }).translationXBy(isRTL() ? -ACTION_DIMENSION_PX : ACTION_DIMENSION_PX).get());
             }
 
             //scale and zoom out
@@ -501,7 +501,7 @@ public class MenuView extends LinearLayout {
                     .alpha(1.0f).get());
         }
 
-        if(anims.isEmpty()){
+        if (anims.isEmpty()) {
             return;
         }
 
