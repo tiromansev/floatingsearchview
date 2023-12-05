@@ -709,21 +709,22 @@ public class FloatingSearchView extends FrameLayout {
     //ensures that the end margin of the search input is according to Material specs
     private void handleOnVisibleMenuItemsWidthChanged(int menuItemsWidth) {
         if (menuItemsWidth == 0) {
-            mClearButton.setTranslationX(-Util.dpToPx(4));
+            int translationX = Util.dpToPx(4);
+            mClearButton.setTranslationX(isRTL() ? translationX : -translationX);
             int paddingRight = Util.dpToPx(4);
             if (mIsFocused) {
                 paddingRight += Util.dpToPx(CLEAR_BTN_WIDTH_DP);
             } else {
                 paddingRight += Util.dpToPx(14);
             }
-            mSearchInput.setPadding(0, 0, paddingRight, 0);
+            mSearchInput.setPadding(isRTL() ? paddingRight : 0, 0, isRTL() ? 0 : paddingRight, 0);
         } else {
-            mClearButton.setTranslationX(-menuItemsWidth);
+            mClearButton.setTranslationX(isRTL() ? menuItemsWidth : -menuItemsWidth);
             int paddingRight = menuItemsWidth;
             if (mIsFocused) {
                 paddingRight += Util.dpToPx(CLEAR_BTN_WIDTH_DP);
             }
-            mSearchInput.setPadding(0, 0, paddingRight, 0);
+            mSearchInput.setPadding(0, 0, 0, 0);
         }
     }
 
@@ -957,7 +958,7 @@ public class FloatingSearchView extends FrameLayout {
                 queryTranslationX = -leftActionWidthAndMarginLeft;
                 break;
         }
-        mSearchInputParent.setTranslationX(queryTranslationX);
+        mSearchInputParent.setTranslationX(isRTL() ? -queryTranslationX : queryTranslationX);
     }
 
     private void toggleLeftMenu() {
@@ -1576,7 +1577,7 @@ public class FloatingSearchView extends FrameLayout {
                     mLeftAction.setScaleX(0.5f);
                     mLeftAction.setScaleY(0.5f);
                     mLeftAction.setAlpha(0.0f);
-                    mLeftAction.setTranslationX(Util.dpToPx(8));
+                    mLeftAction.setTranslationX(isRTL()?-Util.dpToPx(8):Util.dpToPx(8));
                     ObjectAnimator transXArrowAnim = ViewPropertyObjectAnimator.animate(mLeftAction).translationX(1.0f).get();
                     ObjectAnimator scaleXArrowAnim = ViewPropertyObjectAnimator.animate(mLeftAction).scaleX(1.0f).get();
                     ObjectAnimator scaleYArrowAnim = ViewPropertyObjectAnimator.animate(mLeftAction).scaleY(1.0f).get();
@@ -1614,7 +1615,7 @@ public class FloatingSearchView extends FrameLayout {
 
                 if (withAnim) {
                     ObjectAnimator searchInputTransXAnim = ViewPropertyObjectAnimator.animate(mSearchInputParent)
-                            .translationX(-Util.dpToPx(LEFT_MENU_WIDTH_AND_MARGIN_START_DP)).get();
+                            .translationX(isRTL()?Util.dpToPx(LEFT_MENU_WIDTH_AND_MARGIN_START_DP):-Util.dpToPx(LEFT_MENU_WIDTH_AND_MARGIN_START_DP)).get();
 
                     ObjectAnimator scaleXArrowAnim = ViewPropertyObjectAnimator.animate(mLeftAction).scaleX(0.5f).get();
                     ObjectAnimator scaleYArrowAnim = ViewPropertyObjectAnimator.animate(mLeftAction).scaleY(0.5f).get();

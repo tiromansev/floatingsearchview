@@ -21,9 +21,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import androidx.appcompat.view.SupportMenuInflater;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.view.menu.MenuItemImpl;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -35,6 +32,11 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.appcompat.view.SupportMenuInflater;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuItemImpl;
+import androidx.core.view.ViewCompat;
 
 import com.arlib.floatingsearchview.R;
 import com.arlib.floatingsearchview.util.MenuPopupHelper;
@@ -330,10 +332,10 @@ public class MenuView extends LinearLayout {
                         @Override
                         public void onAnimationEnd(Animator animation) {
 
-                            currentChild.setTranslationX(destTransX);
+                            currentChild.setTranslationX(isRTL()?-destTransX:destTransX);
                         }
                     })
-                    .translationXBy(destTransX).get());
+                    .translationXBy(isRTL()? -destTransX: destTransX).get());
         }
 
         //add anims for moving to right and/or zooming out previously shown items
@@ -349,9 +351,9 @@ public class MenuView extends LinearLayout {
                             @Override
                             public void onAnimationEnd(Animator animation) {
 
-                                currentView.setTranslationX(ACTION_DIMENSION_PX);
+                                currentView.setTranslationX(isRTL()?-ACTION_DIMENSION_PX:ACTION_DIMENSION_PX);
                             }
-                        }).translationXBy(ACTION_DIMENSION_PX).get());
+                        }).translationXBy(isRTL()?-ACTION_DIMENSION_PX:ACTION_DIMENSION_PX).get());
             }
 
             //scale and zoom out
@@ -561,5 +563,9 @@ public class MenuView extends LinearLayout {
 
         //clear anims if any to avoid leak
         cancelChildAnimListAndClear();
+    }
+
+    private boolean isRTL() {
+        return ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL;
     }
 }
