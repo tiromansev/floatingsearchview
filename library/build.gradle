@@ -21,6 +21,10 @@ android {
         abortOnError false
     }
     namespace 'com.arlib.floatingsearchview'
+    
+    publishing {
+        singleVariant("release") {}
+    }
 }
 
 dependencies {
@@ -30,4 +34,17 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.bartoszlipinski:viewpropertyobjectanimator:1.5.0'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = project.findProperty('group') ?: 'com.arlib'
+                artifactId = 'floatingsearchview'
+                version = project.findProperty('version') ?: android.defaultConfig.versionName
+            }
+        }
+    }
 }
