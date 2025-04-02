@@ -18,9 +18,10 @@ android {
     }
 
     compileOptions {
-        targetCompatibility 11
-        sourceCompatibility 11
+        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
     }
+    namespace 'com.arlib.floatingsearchviewdemo'
 }
 
 dependencies {

@@ -71,7 +71,7 @@ public class SlidingSearchResultsExampleFragment extends BaseExampleFragment {
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
 
-                if (!oldQuery.equals("") && newQuery.equals("")) {
+                /*if (!oldQuery.equals("") && newQuery.equals("")) {
                     mSearchView.clearSuggestions();
                 } else {
 
@@ -98,7 +98,7 @@ public class SlidingSearchResultsExampleFragment extends BaseExampleFragment {
                                     mSearchView.hideProgress();
                                 }
                             });
-                }
+                }*/
 
                 Log.d(TAG, "onSearchTextChanged()");
             }
