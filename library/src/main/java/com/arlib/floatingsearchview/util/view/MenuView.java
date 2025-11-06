@@ -84,6 +84,9 @@ public class MenuView extends LinearLayout {
 
     private List<ObjectAnimator> anims = new ArrayList<>();
 
+    // List of menu item IDs that should be forced to stay visible
+    private List<Integer> mForceVisibleItemIds = new ArrayList<>();
+
     public interface OnVisibleWidthChangedListener {
         void onItemsMenuVisibleWidthChanged(int newVisibleWidth);
     }
@@ -567,5 +570,108 @@ public class MenuView extends LinearLayout {
 
     private boolean isRTL() {
         return ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL;
+    }
+
+    /**
+     * Force a specific menu item to stay visible by its ID
+     * @param itemId The menu item ID to force visible
+     */
+    public void setMenuItemForceVisible(int itemId) {
+        if (!mForceVisibleItemIds.contains(itemId)) {
+            mForceVisibleItemIds.add(itemId);
+        }
+        showMenuItem(itemId);
+    }
+
+    /**
+     * Remove forced visibility for a specific menu item by its ID
+     * @param itemId The menu item ID to remove from force visible list
+     */
+    public void clearMenuItemForceVisible(int itemId) {
+        mForceVisibleItemIds.remove(Integer.valueOf(itemId));
+    }
+
+    /**
+     * Clear all force visible menu items
+     */
+    public void clearAllForceVisibleItems() {
+        mForceVisibleItemIds.clear();
+    }
+
+    /**
+     * Check if a menu item is set to force visible
+     * @param itemId The menu item ID to check
+     * @return true if the item is force visible
+     */
+    public boolean isMenuItemForceVisible(int itemId) {
+        return mForceVisibleItemIds.contains(itemId);
+    }
+
+    /**
+     * Show a specific menu item by its ID
+     * @param itemId The menu item ID to show
+     */
+    public void showMenuItem(int itemId) {
+        for (int i = 0; i < mActionItems.size() && i < getChildCount(); i++) {
+            if (mActionItems.get(i).getItemId() == itemId) {
+                View itemView = getChildAt(i);
+                itemView.setVisibility(VISIBLE);
+                itemView.setAlpha(1.0f);
+                itemView.setScaleX(1.0f);
+                itemView.setScaleY(1.0f);
+                itemView.setClickable(true);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Hide a specific menu item by its ID
+     * @param itemId The menu item ID to hide
+     */
+    public void hideMenuItem(int itemId) {
+        // Don't hide if it's force visible
+        if (mForceVisibleItemIds.contains(itemId)) {
+            return;
+        }
+
+        for (int i = 0; i < mActionItems.size() && i < getChildCount(); i++) {
+            if (mActionItems.get(i).getItemId() == itemId) {
+                View itemView = getChildAt(i);
+                itemView.setVisibility(GONE);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Hide all menu items except force-visible ones
+     */
+    public void hideNonForceVisibleItems() {
+        for (int i = 0; i < mActionItems.size() && i < getChildCount(); i++) {
+            int itemId = mActionItems.get(i).getItemId();
+            if (!mForceVisibleItemIds.contains(itemId)) {
+                View itemView = getChildAt(i);
+                itemView.setVisibility(GONE);
+            }
+        }
+    }
+
+    /**
+     * Show all menu items
+     */
+    public void showAllItems() {
+        for (int i = 0; i < getChildCount(); i++) {
+            View itemView = getChildAt(i);
+            itemView.setVisibility(VISIBLE);
+        }
+    }
+
+    /**
+     * Check if there are any force-visible items
+     * @return true if there are force-visible items
+     */
+    public boolean hasForceVisibleItems() {
+        return !mForceVisibleItemIds.isEmpty();
     }
 }

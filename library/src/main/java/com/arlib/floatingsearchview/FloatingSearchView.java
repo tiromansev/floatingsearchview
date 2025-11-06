@@ -624,9 +624,17 @@ public class FloatingSearchView extends FrameLayout {
                     }
 
                     if (mSearchInput.getText().toString().length() > 0) {
-                        mMenuView.setVisibility(View.GONE);
+                        // If there are force-visible items, hide only non-force-visible items
+                        // Otherwise, hide the entire menu view
+                        if (mMenuView.hasForceVisibleItems()) {
+                            mMenuView.hideNonForceVisibleItems();
+                        } else {
+                            mMenuView.setVisibility(View.GONE);
+                        }
                     } else {
+                        // When text is cleared, show all menu items
                         mMenuView.setVisibility(View.VISIBLE);
+                        mMenuView.showAllItems();
                     }
 
                     if (mQueryListener != null && mIsFocused && !mOldQuery.equals(mSearchInput.getText().toString())) {
@@ -800,6 +808,63 @@ public class FloatingSearchView extends FrameLayout {
         this.mOverflowIconColor = color;
         if (mMenuView != null) {
             mMenuView.setOverflowColor(this.mOverflowIconColor);
+        }
+    }
+
+    /**
+     * Force a specific menu item to stay visible even when text is entered.
+     * The item will remain visible until clearMenuItemForceVisible() is called.
+     *
+     * @param menuItemId the ID of the menu item to force visible
+     */
+    public void setMenuItemForceVisible(int menuItemId) {
+        if (mMenuView != null) {
+            mMenuView.setMenuItemForceVisible(menuItemId);
+        }
+    }
+
+    /**
+     * Remove forced visibility for a specific menu item.
+     * The item will follow normal visibility rules after this.
+     *
+     * @param menuItemId the ID of the menu item to remove from force visible list
+     */
+    public void clearMenuItemForceVisible(int menuItemId) {
+        if (mMenuView != null) {
+            mMenuView.clearMenuItemForceVisible(menuItemId);
+        }
+    }
+
+    /**
+     * Clear all force visible menu items.
+     * All menu items will follow normal visibility rules after this.
+     */
+    public void clearAllForceVisibleMenuItems() {
+        if (mMenuView != null) {
+            mMenuView.clearAllForceVisibleItems();
+        }
+    }
+
+    /**
+     * Show a specific menu item by its ID.
+     *
+     * @param menuItemId the ID of the menu item to show
+     */
+    public void showMenuItem(int menuItemId) {
+        if (mMenuView != null) {
+            mMenuView.showMenuItem(menuItemId);
+        }
+    }
+
+    /**
+     * Hide a specific menu item by its ID.
+     * Note: If the item is set to force visible, it will not be hidden.
+     *
+     * @param menuItemId the ID of the menu item to hide
+     */
+    public void hideMenuItem(int menuItemId) {
+        if (mMenuView != null) {
+            mMenuView.hideMenuItem(menuItemId);
         }
     }
 
@@ -1490,11 +1555,18 @@ public class FloatingSearchView extends FrameLayout {
             handleOnVisibleMenuItemsWidthChanged(0);//this must be called before  mMenuView.hideIfRoomItems(...)
 
             if (mSearchInput.getText().toString().length() > 0) {
-                mMenuView.setVisibility(View.GONE);
+                // If there are force-visible items, hide only non-force-visible items
+                // Otherwise, hide the entire menu view
+                if (mMenuView.hasForceVisibleItems()) {
+                    mMenuView.hideNonForceVisibleItems();
+                } else {
+                    mMenuView.setVisibility(View.GONE);
+                }
             } else {
                 mMenuView.setVisibility(View.VISIBLE);
+                mMenuView.showAllItems();
             }
-            
+
             transitionInLeftSection(true);
             Util.showSoftKeyboard(getContext(), mSearchInput);
             if (mMenuOpen) {
