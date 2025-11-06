@@ -628,13 +628,17 @@ public class FloatingSearchView extends FrameLayout {
                         // Otherwise, hide the entire menu view
                         if (mMenuView.hasForceVisibleItems()) {
                             mMenuView.hideNonForceVisibleItems();
+                            handleOnVisibleMenuItemsWidthChanged(mMenuView.getForceVisibleItemsWidth());
                         } else {
                             mMenuView.setVisibility(View.GONE);
+                            handleOnVisibleMenuItemsWidthChanged(0);
                         }
                     } else {
-                        // When text is cleared, show all menu items
+                        // When text is cleared, clear force-visible items and show all menu items
+                        mMenuView.clearAllForceVisibleItems();
                         mMenuView.setVisibility(View.VISIBLE);
                         mMenuView.showAllItems();
+                        handleOnVisibleMenuItemsWidthChanged(0);
                     }
 
                     if (mQueryListener != null && mIsFocused && !mOldQuery.equals(mSearchInput.getText().toString())) {
@@ -1552,19 +1556,22 @@ public class FloatingSearchView extends FrameLayout {
             if (mDimBackground) {
                 fadeInBackground();
             }
-            handleOnVisibleMenuItemsWidthChanged(0);//this must be called before  mMenuView.hideIfRoomItems(...)
-
             if (mSearchInput.getText().toString().length() > 0) {
                 // If there are force-visible items, hide only non-force-visible items
                 // Otherwise, hide the entire menu view
                 if (mMenuView.hasForceVisibleItems()) {
                     mMenuView.hideNonForceVisibleItems();
+                    handleOnVisibleMenuItemsWidthChanged(mMenuView.getForceVisibleItemsWidth());
                 } else {
                     mMenuView.setVisibility(View.GONE);
+                    handleOnVisibleMenuItemsWidthChanged(0);
                 }
             } else {
+                // When text is cleared, clear force-visible items and show all menu items
+                mMenuView.clearAllForceVisibleItems();
                 mMenuView.setVisibility(View.VISIBLE);
                 mMenuView.showAllItems();
+                handleOnVisibleMenuItemsWidthChanged(0);
             }
 
             transitionInLeftSection(true);

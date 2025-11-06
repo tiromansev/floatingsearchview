@@ -674,4 +674,24 @@ public class MenuView extends LinearLayout {
     public boolean hasForceVisibleItems() {
         return !mForceVisibleItemIds.isEmpty();
     }
+
+    /**
+     * Get the width of force-visible menu items
+     * @return width in pixels of all force-visible items
+     */
+    public int getForceVisibleItemsWidth() {
+        if (mForceVisibleItemIds.isEmpty()) {
+            return 0;
+        }
+
+        int count = 0;
+        for (int i = 0; i < mActionItems.size() && i < getChildCount(); i++) {
+            int itemId = mActionItems.get(i).getItemId();
+            if (mForceVisibleItemIds.contains(itemId)) {
+                count++;
+            }
+        }
+
+        return ((int) ACTION_DIMENSION_PX * count);
+    }
 }
