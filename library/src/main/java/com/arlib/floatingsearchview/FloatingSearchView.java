@@ -461,7 +461,8 @@ public class FloatingSearchView extends FrameLayout {
 
     private void applyXmlAttributes(AttributeSet attrs) {
 
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FloatingSearchView);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FloatingSearchView,
+                R.attr.floatingSearchViewStyle, 0);
 
         try {
 

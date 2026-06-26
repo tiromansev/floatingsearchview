@@ -45,4 +45,8 @@
         <attr name="floatingSearch_searchBarStrokeWidth" format="dimension"/>
         <attr name="floatingSearch_searchBarCornerRadius" format="dimension"/>
     </declare-styleable>
+
+    <!-- Theme-level default style hook, so an app theme can set FloatingSearchView defaults
+         (e.g. the flat style) once for every instance without per-layout attributes. -->
+    <attr name="floatingSearchViewStyle" format="reference"/>
 </resources>
