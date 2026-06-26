@@ -28,6 +28,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -543,8 +544,39 @@ public class FloatingSearchView extends FrameLayout {
                     , Util.getColor(getContext(), R.color.hint_color)));
             setSuggestionRightIconColor(a.getColor(R.styleable.FloatingSearchView_floatingSearch_suggestionRightIconColor
                     , Util.getColor(getContext(), R.color.gray_active_icon)));
+            if (a.getBoolean(R.styleable.FloatingSearchView_floatingSearch_searchBarFlat, false)) {
+                int strokeColor = a.getColor(
+                        R.styleable.FloatingSearchView_floatingSearch_searchBarStrokeColor, Color.TRANSPARENT);
+                int strokeWidth = a.getDimensionPixelSize(
+                        R.styleable.FloatingSearchView_floatingSearch_searchBarStrokeWidth, 0);
+                int cornerRadius = a.getDimensionPixelSize(
+                        R.styleable.FloatingSearchView_floatingSearch_searchBarCornerRadius,
+                        getResources().getDimensionPixelSize(R.dimen.search_view_corner_radius));
+                setSearchBarFlat(strokeColor, strokeWidth, cornerRadius);
+            }
         } finally {
             a.recycle();
+        }
+    }
+
+    /**
+     * Switches the query bar to a flat style: no card elevation/shadow, a custom corner radius and
+     * an optional thin stroke drawn as the card foreground. Opt-in via the
+     * {@code floatingSearch_searchBarFlat} attribute; default behavior keeps the elevated card look,
+     * so existing consumers are unaffected.
+     */
+    public void setSearchBarFlat(int strokeColor, int strokeWidth, int cornerRadius) {
+        mQuerySection.setMaxCardElevation(0);
+        mQuerySection.setCardElevation(0);
+        mQuerySection.setUseCompatPadding(false);
+        mQuerySection.setRadius(cornerRadius);
+        if (strokeWidth > 0) {
+            GradientDrawable border = new GradientDrawable();
+            border.setShape(GradientDrawable.RECTANGLE);
+            border.setColor(Color.TRANSPARENT);
+            border.setCornerRadius(cornerRadius);
+            border.setStroke(strokeWidth, strokeColor);
+            mQuerySection.setForeground(border);
         }
     }
 

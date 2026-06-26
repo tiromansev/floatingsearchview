@@ -38,5 +38,11 @@
         <attr name="floatingSearch_dividerColor" format="color"/>
         <attr name="floatingSearch_dimBackground" format="boolean"/>
         <attr name="floatingSearch_suggestionRightIconColor" format="color"/>
+        <!-- Flat (borderless-card) style: a flat field with a thin stroke instead of the
+             default elevated card+shadow. Opt-in; default keeps the original look. -->
+        <attr name="floatingSearch_searchBarFlat" format="boolean"/>
+        <attr name="floatingSearch_searchBarStrokeColor" format="color"/>
+        <attr name="floatingSearch_searchBarStrokeWidth" format="dimension"/>
+        <attr name="floatingSearch_searchBarCornerRadius" format="dimension"/>
     </declare-styleable>
 </resources>
