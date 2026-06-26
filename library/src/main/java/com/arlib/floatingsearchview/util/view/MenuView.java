@@ -22,6 +22,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -106,6 +107,9 @@ public class MenuView extends LinearLayout {
     }
 
     private void init() {
+        // Center the action icons vertically within the menu row so they line up with the
+        // search text on short/flat search bars (items default to top gravity otherwise).
+        setGravity(Gravity.CENTER_VERTICAL);
         mMenuBuilder = new MenuBuilder(getContext());
         mMenuPopupHelper = new MenuPopupHelper(getContext(), mMenuBuilder, this);
         mActionIconColor = Util.getColor(getContext(), R.color.gray_active_icon);
