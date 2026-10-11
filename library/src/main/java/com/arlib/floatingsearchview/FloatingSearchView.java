@@ -1936,6 +1936,10 @@ public class FloatingSearchView extends FrameLayout {
         return ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL;
     }
 
+    // Colours are deliberately NOT part of the saved state: they are resolved from the host theme
+    // at inflation, and restoring them would re-apply the colours of the previous theme after the
+    // activity is recreated on a system dark-mode switch (the search bar stayed dark on a light
+    // screen). Only behavioural state (query, focus, hint, flags, menu) survives recreation.
     @Override
     public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
@@ -1949,16 +1953,6 @@ public class FloatingSearchView extends FrameLayout {
         savedState.showMoveSuggestionUpBtn = mShowMoveUpSuggestion;
         savedState.showSearchKey = mShowSearchKey;
         savedState.isTitleSet = mIsTitleSet;
-        savedState.backgroundColor = mBackgroundColor;
-        savedState.suggestionsTextColor = mSuggestionTextColor;
-        savedState.queryTextColor = mSearchInputTextColor;
-        savedState.searchHintTextColor = mSearchInputHintColor;
-        savedState.actionOverflowMenuColor = mOverflowIconColor;
-        savedState.menuItemIconColor = mActionMenuItemColor;
-        savedState.leftIconColor = mLeftActionIconColor;
-        savedState.clearBtnColor = mClearBtnColor;
-        savedState.suggestionUpBtnColor = mSuggestionTextColor;
-        savedState.dividerColor = mDividerColor;
         savedState.menuId = mMenuId;
         savedState.leftActionMode = mLeftActionMode;
         savedState.queryTextSize = mQueryTextSize;
@@ -1983,17 +1977,7 @@ public class FloatingSearchView extends FrameLayout {
         setShowMoveUpSuggestion(savedState.showMoveSuggestionUpBtn);
         setShowSearchKey(savedState.showSearchKey);
         setSearchHint(savedState.searchHint);
-        setBackgroundColor(savedState.backgroundColor);
-        setSuggestionsTextColor(savedState.suggestionsTextColor);
-        setQueryTextColor(savedState.queryTextColor);
         setQueryTextSize(savedState.queryTextSize);
-        setHintTextColor(savedState.searchHintTextColor);
-        setActionMenuOverflowColor(savedState.actionOverflowMenuColor);
-        setMenuItemIconColor(savedState.menuItemIconColor);
-        setLeftActionIconColor(savedState.leftIconColor);
-        setClearBtnColor(savedState.clearBtnColor);
-        setSuggestionRightIconColor(savedState.suggestionUpBtnColor);
-        setDividerColor(savedState.dividerColor);
         setLeftActionMode(savedState.leftActionMode);
         setDimBackground(savedState.dimBackground);
         setCloseSearchOnKeyboardDismiss(savedState.dismissOnSoftKeyboardDismiss);
@@ -2040,16 +2024,6 @@ public class FloatingSearchView extends FrameLayout {
         private boolean showMoveSuggestionUpBtn;
         private boolean showSearchKey;
         private boolean isTitleSet;
-        private int backgroundColor;
-        private int suggestionsTextColor;
-        private int queryTextColor;
-        private int searchHintTextColor;
-        private int actionOverflowMenuColor;
-        private int menuItemIconColor;
-        private int leftIconColor;
-        private int clearBtnColor;
-        private int suggestionUpBtnColor;
-        private int dividerColor;
         private int menuId;
         private int leftActionMode;
         private boolean dimBackground;
@@ -2073,16 +2047,6 @@ public class FloatingSearchView extends FrameLayout {
             showMoveSuggestionUpBtn = (in.readInt() != 0);
             showSearchKey = (in.readInt() != 0);
             isTitleSet = (in.readInt() != 0);
-            backgroundColor = in.readInt();
-            suggestionsTextColor = in.readInt();
-            queryTextColor = in.readInt();
-            searchHintTextColor = in.readInt();
-            actionOverflowMenuColor = in.readInt();
-            menuItemIconColor = in.readInt();
-            leftIconColor = in.readInt();
-            clearBtnColor = in.readInt();
-            suggestionUpBtnColor = in.readInt();
-            dividerColor = in.readInt();
             menuId = in.readInt();
             leftActionMode = in.readInt();
             dimBackground = (in.readInt() != 0);
@@ -2104,16 +2068,6 @@ public class FloatingSearchView extends FrameLayout {
             out.writeInt(showMoveSuggestionUpBtn ? 1 : 0);
             out.writeInt(showSearchKey ? 1 : 0);
             out.writeInt(isTitleSet ? 1 : 0);
-            out.writeInt(backgroundColor);
-            out.writeInt(suggestionsTextColor);
-            out.writeInt(queryTextColor);
-            out.writeInt(searchHintTextColor);
-            out.writeInt(actionOverflowMenuColor);
-            out.writeInt(menuItemIconColor);
-            out.writeInt(leftIconColor);
-            out.writeInt(clearBtnColor);
-            out.writeInt(suggestionUpBtnColor);
-            out.writeInt(dividerColor);
             out.writeInt(menuId);
             out.writeInt(leftActionMode);
             out.writeInt(dimBackground ? 1 : 0);
